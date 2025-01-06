@@ -109,9 +109,17 @@ class Trainer_Condition_Network(pl.LightningModule):
         self.image_transform = args.image_transform
         self.encoder = None
 
+print(f"args: {args}")
+print(f"dataset_path: {args.dataset_path}")
+print(f"batch_size: {args.batch_size}")
+print(f"num_workers: {args.num_workers}")
+
         # helper.create_dir(args.experiment_dir)
         # Clear CUDA cache to free up GPU memory
         print("--before cuda--")
+print(f"CUDA Available: {torch.cuda.is_available()}")
+print(f"CUDA Memory Allocated: {torch.cuda.memory_allocated()}")
+print(f"CUDA Memory Cached: {torch.cuda.memory_reserved()}")
         torch.cuda.empty_cache()
         print("---cuda clear---")
         # Determine return representations based on autoencoder usage
