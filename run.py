@@ -179,16 +179,21 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     add_args(parser)
     args = parser.parse_args()
+    print("---here is the args---\n")
+    print(args)
+    print("-------")
 
     print(f"Loading model")
     
     if args.text_to_dm6 or args.text_to_mv:
+        print("if block will execute")
         model = load_mvdream_model(
             pretrained_model_name_or_path = args.model_name, 
             device = args.device
         )
         image_transform = None    
     else:
+        print("executing else block")
         model = Model.from_pretrained(pretrained_model_name_or_path=args.model_name)
         image_transform = get_image_transform_latent_model()
 
@@ -219,211 +224,211 @@ if __name__ == "__main__":
                 args.target_num_faces,
                 args.seed,
             )
-    elif args.multi_view_images:
-        image_views = [
-            int(os.path.basename(Path(image).name).split(".")[0])
-            for image in args.multi_view_images
-        ]
-        data = get_multiview_data(
-            image_files=args.multi_view_images,
-            views=image_views,
-            image_transform=image_transform,
-            device=model.device,
-        )
-        data_idx = 0
-        save_dir = Path(args.output_dir) / Path(args.multi_view_images[0]).stem
-        generate_3d_object(
-            model,
-            data,
-            data_idx,
-            args.scale,
-            args.diffusion_rescale_timestep,
-            save_dir,
-            args.output_format,
-            args.target_num_faces,
-            args.seed,
-        )
-    elif args.voxel_files:
-        for voxel_file in args.voxel_files:
-            print(f"Processing voxel file: {voxel_file}")
-            data = get_voxel_data_json(
-                voxel_file=Path(voxel_file),
-                voxel_resolution=16,
-                device=model.device,
-            )
-            data_idx = 0
-            save_dir = Path(args.output_dir) / Path(voxel_file).stem
-            generate_3d_object(
-                model,
-                data,
-                data_idx,
-                args.scale,
-                args.diffusion_rescale_timestep,
-                save_dir,
-                args.output_format,
-                args.target_num_faces,
-                args.seed,
-            )
-    elif args.pointcloud:
-        for pointcloud_path in args.pointcloud:
-            print(f"Processing pointcloud file: {pointcloud_path}")
-            data = get_pointcloud_data(
-                pointcloud_file=Path(pointcloud_path), device=model.device
-            )
+    # elif args.multi_view_images:
+    #     image_views = [
+    #         int(os.path.basename(Path(image).name).split(".")[0])
+    #         for image in args.multi_view_images
+    #     ]
+    #     data = get_multiview_data(
+    #         image_files=args.multi_view_images,
+    #         views=image_views,
+    #         image_transform=image_transform,
+    #         device=model.device,
+    #     )
+    #     data_idx = 0
+    #     save_dir = Path(args.output_dir) / Path(args.multi_view_images[0]).stem
+    #     generate_3d_object(
+    #         model,
+    #         data,
+    #         data_idx,
+    #         args.scale,
+    #         args.diffusion_rescale_timestep,
+    #         save_dir,
+    #         args.output_format,
+    #         args.target_num_faces,
+    #         args.seed,
+    #     )
+    # elif args.voxel_files:
+    #     for voxel_file in args.voxel_files:
+    #         print(f"Processing voxel file: {voxel_file}")
+    #         data = get_voxel_data_json(
+    #             voxel_file=Path(voxel_file),
+    #             voxel_resolution=16,
+    #             device=model.device,
+    #         )
+    #         data_idx = 0
+    #         save_dir = Path(args.output_dir) / Path(voxel_file).stem
+    #         generate_3d_object(
+    #             model,
+    #             data,
+    #             data_idx,
+    #             args.scale,
+    #             args.diffusion_rescale_timestep,
+    #             save_dir,
+    #             args.output_format,
+    #             args.target_num_faces,
+    #             args.seed,
+    #         )
+    # elif args.pointcloud:
+    #     for pointcloud_path in args.pointcloud:
+    #         print(f"Processing pointcloud file: {pointcloud_path}")
+    #         data = get_pointcloud_data(
+    #             pointcloud_file=Path(pointcloud_path), device=model.device
+    #         )
 
-            data_idx = 0
-            save_dir = Path(args.output_dir) / Path(pointcloud_path).stem
-            generate_3d_object(
-                model,
-                data,
-                data_idx,
-                args.scale,
-                args.diffusion_rescale_timestep,
-                save_dir,
-                args.output_format,
-                args.target_num_faces,
-                args.seed,
-            )
+    #         data_idx = 0
+    #         save_dir = Path(args.output_dir) / Path(pointcloud_path).stem
+    #         generate_3d_object(
+    #             model,
+    #             data,
+    #             data_idx,
+    #             args.scale,
+    #             args.diffusion_rescale_timestep,
+    #             save_dir,
+    #             args.output_format,
+    #             args.target_num_faces,
+    #             args.seed,
+    #         )
 
-    elif args.dm6:
-        dm_views = [
-            int(os.path.basename(Path(dm).name).split(".")[0]) for dm in args.dm6
-        ]
+    # elif args.dm6:
+    #     dm_views = [
+    #         int(os.path.basename(Path(dm).name).split(".")[0]) for dm in args.dm6
+    #     ]
 
-        data = get_mv_dm_data(
-            image_files=args.dm6,
-            views=dm_views,
-            image_transform=image_transform,
-            device=model.device,
-        )
+    #     data = get_mv_dm_data(
+    #         image_files=args.dm6,
+    #         views=dm_views,
+    #         image_transform=image_transform,
+    #         device=model.device,
+    #     )
 
-        data_idx = 0
-        save_dir = Path(args.output_dir) / Path(args.dm6[0]).stem
+    #     data_idx = 0
+    #     save_dir = Path(args.output_dir) / Path(args.dm6[0]).stem
 
-        generate_3d_object(
-            model,
-            data,
-            data_idx,
-            args.scale,
-            args.diffusion_rescale_timestep,
-            save_dir,
-            args.output_format,
-            args.target_num_faces,
-            args.seed,
-        )
+    #     generate_3d_object(
+    #         model,
+    #         data,
+    #         data_idx,
+    #         args.scale,
+    #         args.diffusion_rescale_timestep,
+    #         save_dir,
+    #         args.output_format,
+    #         args.target_num_faces,
+    #         args.seed,
+    #     )
     
-    elif args.dm4:
-        dm_views = [
-            int(os.path.basename(Path(dm).name).split(".")[0]) for dm in args.dm4
-        ]
+    # elif args.dm4:
+    #     dm_views = [
+    #         int(os.path.basename(Path(dm).name).split(".")[0]) for dm in args.dm4
+    #     ]
 
-        data = get_mv_dm_data(
-            image_files=args.dm4,
-            views=dm_views,
-            image_transform=image_transform,
-            device=model.device,
-        )
+    #     data = get_mv_dm_data(
+    #         image_files=args.dm4,
+    #         views=dm_views,
+    #         image_transform=image_transform,
+    #         device=model.device,
+    #     )
 
-        data_idx = 0
-        save_dir = Path(args.output_dir) / Path(args.dm4[0]).stem
+    #     data_idx = 0
+    #     save_dir = Path(args.output_dir) / Path(args.dm4[0]).stem
 
-        generate_3d_object(
-            model,
-            data,
-            data_idx,
-            args.scale,
-            args.diffusion_rescale_timestep,
-            save_dir,
-            args.output_format,
-            args.target_num_faces,
-            args.seed,
-        )
+    #     generate_3d_object(
+    #         model,
+    #         data,
+    #         data_idx,
+    #         args.scale,
+    #         args.diffusion_rescale_timestep,
+    #         save_dir,
+    #         args.output_format,
+    #         args.target_num_faces,
+    #         args.seed,
+    #     )
     
-    elif args.dm1:
-        for dm1_path in args.dm1:
-            data = get_sv_dm_data(
-                image_file=Path(dm1_path),
-                image_transform=image_transform,
-                device=model.device,
-                image_over_white=False,
-            )
+    # elif args.dm1:
+    #     for dm1_path in args.dm1:
+    #         data = get_sv_dm_data(
+    #             image_file=Path(dm1_path),
+    #             image_transform=image_transform,
+    #             device=model.device,
+    #             image_over_white=False,
+    #         )
 
-            data_idx = 0
-            save_dir = Path(args.output_dir) / Path(args.dm1[0]).stem
+    #         data_idx = 0
+    #         save_dir = Path(args.output_dir) / Path(args.dm1[0]).stem
 
-            generate_3d_object(
-                model,
-                data,
-                data_idx,
-                args.scale,
-                args.diffusion_rescale_timestep,
-                save_dir,
-                args.output_format,
-                args.target_num_faces,
-                args.seed,
-            )
+    #         generate_3d_object(
+    #             model,
+    #             data,
+    #             data_idx,
+    #             args.scale,
+    #             args.diffusion_rescale_timestep,
+    #             save_dir,
+    #             args.output_format,
+    #             args.target_num_faces,
+    #             args.seed,
+    #         )
 
 
-    elif args.text_to_dm6:
-        text_input = str(args.text_to_dm6)
+    # elif args.text_to_dm6:
+    #     text_input = str(args.text_to_dm6)
 
-        num_of_frames = 6
-        testing_views = [3, 6, 10, 26, 49, 50]
+    #     num_of_frames = 6
+    #     testing_views = [3, 6, 10, 26, 49, 50]
 
-        images_np, image_views = model.inference_step(prompt=text_input, num_frames=num_of_frames, testing_views=testing_views)
-        images = [Image.fromarray(image) for image in images_np]
+    #     images_np, image_views = model.inference_step(prompt=text_input, num_frames=num_of_frames, testing_views=testing_views)
+    #     images = [Image.fromarray(image) for image in images_np]
         
-        save_dir = Path(args.output_dir) / Path("depth_maps")
-        save_dir.mkdir(parents=True, exist_ok=True)
+    #     save_dir = Path(args.output_dir) / Path("depth_maps")
+    #     save_dir.mkdir(parents=True, exist_ok=True)
 
-        for i, img in enumerate(images):
-            output_path = os.path.join(save_dir, f"image_{i}.png")
-            img.save(output_path, format = "PNG")
+    #     for i, img in enumerate(images):
+    #         output_path = os.path.join(save_dir, f"image_{i}.png")
+    #         img.save(output_path, format = "PNG")
 
-    elif args.text_to_mv:
-        text_input = str(args.text_to_mv)
+    # elif args.text_to_mv:
+    #     text_input = str(args.text_to_mv)
 
-        num_of_frames = 4
-        testing_views = [0, 6, 10, 26]
+    #     num_of_frames = 4
+    #     testing_views = [0, 6, 10, 26]
 
-        images_np, image_views = model.inference_step(prompt=text_input, num_frames=num_of_frames, testing_views=testing_views)
-        images = [Image.fromarray(image) for image in images_np]
+    #     images_np, image_views = model.inference_step(prompt=text_input, num_frames=num_of_frames, testing_views=testing_views)
+    #     images = [Image.fromarray(image) for image in images_np]
         
-        save_dir = Path(args.output_dir) / Path("mv_images")
-        save_dir.mkdir(parents=True, exist_ok=True)
+    #     save_dir = Path(args.output_dir) / Path("mv_images")
+    #     save_dir.mkdir(parents=True, exist_ok=True)
 
-        for i, img in enumerate(images):
-            output_path = os.path.join(save_dir, f"image_{i}.png")
-            img.save(output_path, format = "PNG")
+    #     for i, img in enumerate(images):
+    #         output_path = os.path.join(save_dir, f"image_{i}.png")
+    #         img.save(output_path, format = "PNG")
 
 
-    elif args.sketch:
-        for sketch_path in args.sketch:
-            print(f"Processing sketch: {sketch_path}")
+    # elif args.sketch:
+    #     for sketch_path in args.sketch:
+    #         print(f"Processing sketch: {sketch_path}")
 
-            data = get_sketch_data(
-                image_file=Path(sketch_path),
-                image_transform=image_transform,
-                device=model.device,
-                image_over_white=False,
-            )
+    #         data = get_sketch_data(
+    #             image_file=Path(sketch_path),
+    #             image_transform=image_transform,
+    #             device=model.device,
+    #             image_over_white=False,
+    #         )
 
-            data_idx = 0
-            save_dir = Path(args.output_dir) / Path(sketch_path).stem
+    #         data_idx = 0
+    #         save_dir = Path(args.output_dir) / Path(sketch_path).stem
 
-            model.set_inference_fusion_params(
-                args.scale, args.diffusion_rescale_timestep
-            )
+    #         model.set_inference_fusion_params(
+    #             args.scale, args.diffusion_rescale_timestep
+    #         )
 
-            generate_3d_object(
-                model,
-                data,
-                data_idx,
-                args.scale,
-                args.diffusion_rescale_timestep,
-                save_dir,
-                args.output_format,
-                args.target_num_faces,
-                args.seed,
-            )
+    #         generate_3d_object(
+    #             model,
+    #             data,
+    #             data_idx,
+    #             args.scale,
+    #             args.diffusion_rescale_timestep,
+    #             save_dir,
+    #             args.output_format,
+    #             args.target_num_faces,
+    #             args.seed,
+    #         )
 print("Done model execution has been completed....")
