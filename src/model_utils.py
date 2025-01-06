@@ -76,6 +76,9 @@ class Model:
 
     @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path: str):
+        print("----printing pretraind model name or path")
+        print(pretrained_model_name_or_path)
+        print("----")
         if os.path.isfile(pretrained_model_name_or_path):
             checkpoint_path = pretrained_model_name_or_path
             json_path = os.path.dirname(checkpoint_path) + "/args.json"
@@ -97,4 +100,8 @@ class Model:
             compile_model=False,
             device=device,
         )
+
+        print("---modell end before return---")
+        print(model)
+        print("---")
         return model
