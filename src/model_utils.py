@@ -76,27 +76,28 @@ class Model:
 
     @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path: str):
-        print("----printing pretraind model name or path")
-        print(pretrained_model_name_or_path)
-        print("----")
         if os.path.isfile(pretrained_model_name_or_path):
             checkpoint_path = pretrained_model_name_or_path
             json_path = os.path.dirname(checkpoint_path) + "/args.json"
         else:
-            print("in else block for pretrain function")
             checkpoint_path = hf_hub_download(
                 repo_id=pretrained_model_name_or_path, filename="checkpoint.ckpt"
             )
-            print("---printing checkpoint after downloafin from hf")
-            print(checkpoint_path)
-            print("---")
             json_path = hf_hub_download(
                 repo_id=pretrained_model_name_or_path, filename="args.json"
             )
 
+            print("---json path----")
+            print(json_path)
+            print("----")
+
         device = (
             torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         )
+
+        print("----device print---")
+        print(device)
+        print("----")
 
         model = load_latent_model(
             json_path,
