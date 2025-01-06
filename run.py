@@ -426,3 +426,4 @@ if __name__ == "__main__":
                 args.target_num_faces,
                 args.seed,
             )
+print("Done model execution has been completed....")
