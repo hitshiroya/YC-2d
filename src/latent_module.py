@@ -48,7 +48,7 @@ from src.latent_model.voxels_network import (
 from src.clip_mod import get_clip_model, tokenize
 from src.latent_model import wavelet_vq_model
 
-
+print("---insdie latent file")
 def load_ema_state_dict(checkpoint_path, args):
     print(f"Loading model from checkpoint: {checkpoint_path}")
     checkpoint = torch.load(checkpoint_path, map_location="cpu")
@@ -112,7 +112,7 @@ class Trainer_Condition_Network(pl.LightningModule):
         # helper.create_dir(args.experiment_dir)
         # Clear CUDA cache to free up GPU memory
         torch.cuda.empty_cache()
-
+        print("---cuda clear---")
         # Determine return representations based on autoencoder usage
         latent_rep = "latent" if args.use_autoencoder_ema else "latent_code"
         self.return_reps = ["Wavelet"] if self.use_autoencoder else [latent_rep]
@@ -122,6 +122,8 @@ class Trainer_Condition_Network(pl.LightningModule):
 
         # Setup conditions
         self.setup_conditions()
+
+        print("----condition setup done---")
 
         # Initialize the main network and autoencoder
         self.network = continous_diffusion_interface.get_model(args)

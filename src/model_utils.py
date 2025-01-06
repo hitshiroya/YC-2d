@@ -90,9 +90,7 @@ class Model:
                 repo_id=pretrained_model_name_or_path, filename="args.json"
             )
 
-            print("---json path----")
-            print(json_path)
-            print("----")
+            
 
         device = (
             torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
