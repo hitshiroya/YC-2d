@@ -83,9 +83,13 @@ class Model:
             checkpoint_path = pretrained_model_name_or_path
             json_path = os.path.dirname(checkpoint_path) + "/args.json"
         else:
+            print("in else block for pretrain function")
             checkpoint_path = hf_hub_download(
                 repo_id=pretrained_model_name_or_path, filename="checkpoint.ckpt"
             )
+            print("---printing checkpoint after downloafin from hf")
+            print(checkpoint_path)
+            print("---")
             json_path = hf_hub_download(
                 repo_id=pretrained_model_name_or_path, filename="args.json"
             )
