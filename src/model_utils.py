@@ -44,11 +44,14 @@ def load_latent_model(
 ):
     with open(json_path, "r") as file:
         args = json.load(file, object_hook=DotDict)
-
+    
+    print("---model inside load latent model")
     model = Trainer_Condition_Network.load_from_checkpoint(
         checkpoint_path=checkpoint_path, map_location="cpu", args=args
     )
-
+    
+    print(model)
+    print("---")
     if hasattr(model, "ema_state_dict") and model.ema_state_dict is not None:
         # load EMA weights
         ema = EMACallback(decay=0.9999)
@@ -94,10 +97,6 @@ class Model:
         device = (
             torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         )
-
-        print("----device print---")
-        print(device)
-        print("----")
 
         model = load_latent_model(
             json_path,
