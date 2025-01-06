@@ -179,10 +179,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     add_args(parser)
     args = parser.parse_args()
-    print("---here is the args---\n")
-    print(args)
-    print("-------")
-
+    
+    
     print(f"Loading model")
     
     if args.text_to_dm6 or args.text_to_mv:
@@ -195,6 +193,9 @@ if __name__ == "__main__":
     else:
         print("executing else block")
         model = Model.from_pretrained(pretrained_model_name_or_path=args.model_name)
+        print("-----model printing----")
+        print(model)
+        print("-------")
         image_transform = get_image_transform_latent_model()
 
     if args.images:
