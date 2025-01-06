@@ -111,6 +111,7 @@ class Trainer_Condition_Network(pl.LightningModule):
 
         # helper.create_dir(args.experiment_dir)
         # Clear CUDA cache to free up GPU memory
+        print("--before cuda--")
         torch.cuda.empty_cache()
         print("---cuda clear---")
         # Determine return representations based on autoencoder usage
