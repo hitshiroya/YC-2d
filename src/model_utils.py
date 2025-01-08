@@ -50,7 +50,16 @@ def load_latent_model(
         checkpoint_path=checkpoint_path, map_location="cpu", args=args
     )
     
-    print(model)
+    # Print model architecture
+    print("\nModel Architecture:")
+    for name, module in model.named_children():
+        print(f"\n{name}:")
+        print(module)
+    
+    # Print model parameters
+    total_params = sum(p.numel() for p in model.parameters())
+    print(f"\nTotal parameters: {total_params:,}")
+    
     print("---")
     if hasattr(model, "ema_state_dict") and model.ema_state_dict is not None:
         # load EMA weights
