@@ -48,9 +48,20 @@ def load_latent_model(
     print("---model inside load latent model")
     print("Attempting to load checkpoint from:", checkpoint_path)
     print("Args being used:", args)
-    model = Trainer_Condition_Network.load_from_checkpoint(
-        checkpoint_path=checkpoint_path, map_location="cpu", args=args
-    )
+        try:
+            model = Trainer_Condition_Network.load_from_checkpoint(
+                checkpoint_path=checkpoint_path, 
+                map_location="cpu", 
+                args=args,
+                strict=False  # Add this to see if it helps
+            )
+            print("✓ Model loaded!")
+        except Exception as e:
+            print(f"❌ Error during model loading: {str(e)}")
+            print("\nTraceback:")
+            import traceback
+            traceback.print_exc()
+            raise
     
     # Print model architecture
     print("\nModel Architecture:")
