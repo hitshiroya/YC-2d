@@ -48,20 +48,20 @@ def load_latent_model(
     print("---model inside load latent model")
     print("Attempting to load checkpoint from:", checkpoint_path)
     print("Args being used:", args)
-        try:
-            model = Trainer_Condition_Network.load_from_checkpoint(
-                checkpoint_path=checkpoint_path, 
-                map_location="cpu", 
-                args=args,
-                strict=False  # Add this to see if it helps
-            )
-            print("✓ Model loaded!")
-        except Exception as e:
-            print(f"❌ Error during model loading: {str(e)}")
-            print("\nTraceback:")
-            import traceback
-            traceback.print_exc()
-            raise
+    try:
+        model = Trainer_Condition_Network.load_from_checkpoint(
+            checkpoint_path=checkpoint_path, 
+            map_location="cpu", 
+            args=args,
+            strict=False  # Add this to see if it helps
+        )
+        print("✓ Model loaded!")
+    except Exception as e:
+        print(f"❌ Error during model loading: {str(e)}")
+        print("\nTraceback:")
+        import traceback
+        traceback.print_exc()
+        raise
     
     # Print model architecture
     print("\nModel Architecture:")
@@ -98,7 +98,6 @@ def load_latent_model(
 
 
 class Model:
-
     @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path: str):
         if os.path.isfile(pretrained_model_name_or_path):
@@ -111,8 +110,6 @@ class Model:
             json_path = hf_hub_download(
                 repo_id=pretrained_model_name_or_path, filename="args.json"
             )
-
-            
 
         device = (
             torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
