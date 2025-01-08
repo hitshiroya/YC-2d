@@ -46,6 +46,8 @@ def load_latent_model(
         args = json.load(file, object_hook=DotDict)
     
     print("---model inside load latent model")
+    print("Attempting to load checkpoint from:", checkpoint_path)
+    print("Args being used:", args)
     model = Trainer_Condition_Network.load_from_checkpoint(
         checkpoint_path=checkpoint_path, map_location="cpu", args=args
     )
