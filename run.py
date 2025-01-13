@@ -193,9 +193,9 @@ if __name__ == "__main__":
     else:
         print("executing else block")
         model = Model.from_pretrained(pretrained_model_name_or_path=args.model_name)
-        print("************** Model loaded properly and returning it's expected value")
+        print("-----model printing----")
         print(model)
-        print("**********************************************************************")
+        print("-------")
         image_transform = get_image_transform_latent_model()
 
     if args.images:

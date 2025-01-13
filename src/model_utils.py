@@ -55,13 +55,15 @@ def load_latent_model(
             args=args,
             strict=False  # Add this to see if it helps
         )
-        
+        print("✓ Model loaded!")
+    except Exception as e:
+        print(f"❌ Error during model loading: {str(e)}")
+        print("\nTraceback:")
+        import traceback
+        traceback.print_exc()
+        raise
     
     
-    total_params = sum(p.numel() for p in model.parameters())
-    print(f"\nTotal parameters: {total_params:,}")
-    
-    print("---")
     if hasattr(model, "ema_state_dict") and model.ema_state_dict is not None:
         # load EMA weights
         ema = EMACallback(decay=0.9999)
@@ -109,5 +111,6 @@ class Model:
             compile_model=False,
             device=device,
         )
-
+        
+        print(model)
         return model
