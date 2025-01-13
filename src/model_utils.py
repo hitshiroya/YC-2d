@@ -55,21 +55,9 @@ def load_latent_model(
             args=args,
             strict=False  # Add this to see if it helps
         )
-        print("✓ Model loaded!")
-    except Exception as e:
-        print(f"❌ Error during model loading: {str(e)}")
-        print("\nTraceback:")
-        import traceback
-        traceback.print_exc()
-        raise
+        
     
-    # Print model architecture
-    print("\nModel Architecture:")
-    for name, module in model.named_children():
-        print(f"\n{name}:")
-        print(module)
     
-    # Print model parameters
     total_params = sum(p.numel() for p in model.parameters())
     print(f"\nTotal parameters: {total_params:,}")
     
@@ -122,7 +110,4 @@ class Model:
             device=device,
         )
 
-        print("---modell end before return---")
-        print(model)
-        print("---")
         return model
