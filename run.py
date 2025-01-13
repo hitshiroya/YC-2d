@@ -184,18 +184,16 @@ if __name__ == "__main__":
     print(f"Loading model")
     
     if args.text_to_dm6 or args.text_to_mv:
-        print("if block will execute")
         model = load_mvdream_model(
             pretrained_model_name_or_path = args.model_name, 
             device = args.device
         )
         image_transform = None    
     else:
-        print("executing else block")
         model = Model.from_pretrained(pretrained_model_name_or_path=args.model_name)
-        print("-----model printing----")
+        print("********* Print final model ***********")
         print(model)
-        print("-------")
+        print("***************************************")
         image_transform = get_image_transform_latent_model()
 
     if args.images:
